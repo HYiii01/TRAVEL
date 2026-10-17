@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "KLCC Twin Towers",
+    "city": "Kuala Lumpur",
+    "description": "Majestic twin towers in the heart of Kuala Lumpur, offering breathtaking views and a vibrant city experience.",
+    "image_url": "https://tse4.mm.bing.net/th/id/OIP.h32CzNnwKGscz69Z8_xf7QHaEN?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+  },
+  {
+    "id": 2,
+    "name": "Merdeka Square",
+    "city": "Kuala Lumpur",
+    "description": "A historic square in the heart of Kuala Lumpur, known for its cultural significance and vibrant atmosphere.",
+    "image_url": "https://www.pelago.com/img/collections/merdeka-square/0710-0155_merdeka-square-kuala-lumpur.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Putrajaya Mosque",
+    "city": "Putrajaya",
+    "description": "A beautiful mosque in the heart of Putrajaya, showcasing traditional Islamic architecture and a peaceful atmosphere.",
+    "image_url": "https://th.bing.com/th/id/OIP.DyaQFuTqTEFTd5X3zqiEvAHaE7?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
+  },
+  {
+    "id": 4,
+    "name": "George Town Street Art",
+    "city": "Penang",
+    "description": "Colorful street art in George Town, Penang, showcasing local culture and creativity.",
+    "image_url": "https://tse4.mm.bing.net/th/id/OIP.NcPDNIEZ4cbL2RZkEZLvcQHaES?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+  },
+  {
+    "id": 5,
+    "name": "Langkawi Dataran Lang",
+    "city": "Langkawi",
+    "description": "A famous landmark in Langkawi, featuring a giant eagle statue and offering scenic views of the surrounding area.",
+    "image_url": "https://th.bing.com/th/id/OIP.UrRejsRs5EyU7YigJiMd7AHaEw?r=0&o=7rm=3&rs=1&pid=ImgDetMain&o=7&rm=3"
+  },
+  {
+    "id": 6,
+    "name": "Langkawi Sky Bridge",
+    "city": "Langkawi",
+    "description": "A stunning curved pedestrian bridge in Langkawi, offering panoramic views of the surrounding islands and rainforest.",
+    "image_url": "https://a.cdn-hotels.com/gdcs/production60/d1824/34c5c474-36e7-448c-9d40-8eba0517069a.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Sabah",
+    "city": "Sabah",
+    "description": "Sabah is a Malaysian state located on the northern portion of the island of Borneo. It is known for its diverse wildlife, lush rainforests, and beautiful beaches. Sabah is home to Mount Kinabalu, the highest peak in Southeast Asia, and offers opportunities for eco-tourism, adventure activities, and cultural experiences with indigenous communities.",
+    "image_url": "https://www.tripsavvy.com/thmb/N15orAV8dWBXfZ_5Y_GZX-5rJj4=/4342x2442/smart/filters:no_upscale()/malaysia-sabah-borneo-island-scenic-view-545331166-5b0b19dc3037130037b9ca12.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Sarawak Mount Kinabalu",
+    "city": "Sarawak",
+    "description": "Mount Kinabalu is the highest peak in Southeast Asia, located in the Malaysian state of Sabah on the island of Borneo. It is part of the Kinabalu National Park, a UNESCO World Heritage Site, and is renowned for its rich biodiversity and unique flora and fauna. The mountain attracts climbers and nature enthusiasts from around the world, offering challenging hikes and breathtaking views from its summit.",
+    "image_url": "https://sabahtravelguide.com/eng/wp-content/uploads/2018/08/Majestic-Mt-Kbalu-scaled-e1598333455646.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Penang Hill",
+    "city": "Penang",
+    "description": "Penang Hill is a popular tourist destination in Penang, Malaysia. It offers panoramic views of the island and the surrounding areas. The hill is home to a variety of plants and animals, and visitors can enjoy hiking trails and scenic walks.",
+    "image_url": "https://onpenang.com/wp-content/uploads/2024/07/Peanng-Hill-view-scaled.jpg"
+  }
+]

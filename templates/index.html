@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.0.0"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Document</title>
+</head>
+<body class="bg-gray-100">
+    <nav class="p-5 flex justify-between items-center">
+        <div class="text-lg font-semibold text-gray-800"><a href="/">Travel Planner</a></div>
+        <div class="flex space-x-6">
+            <a href="/test" class="text-gray-600 hover:text-gray-800">Explore</a>
+            <a href="#" class="text-gray-600 hover:text-gray-800">Destinations</a>
+            <a href="#" class="text-gray-600 hover:text-gray-800">Wishlist</a>
+        </div>
+        <div>
+            <button class="px-2 py-2 bg-gray-200 rounded-full hover:bg-gray-300 transition">
+                <a href="/profile">
+                    <img src="{{ url_for('static', path='pic/user.png') }}" class="w-5 h-5">
+                </a>
+            </button>
+        </div>
+    </nav>
+    <hr class="border-gray-300 mx-5"> 
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>
