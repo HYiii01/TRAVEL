@@ -8,23 +8,25 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Document</title>
 </head>
-<body class="bg-gray-100">
-    <nav class="p-5 flex justify-between items-center">
-        <div class="text-lg font-semibold text-gray-800"><a href="/">Travel Planner</a></div>
-        <div class="flex space-x-6">
+<body class="min-h-screen overflow-x-hidden bg-gray-100">
+    <nav class="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
+        <div class="min-w-0 flex-1 text-base font-semibold text-gray-800 sm:text-lg">
+            <a href="/" class="whitespace-nowrap">Travel Planner</a>
+        </div>
+        <div class="order-3 flex w-full justify-center gap-4 text-sm sm:order-none sm:w-auto sm:gap-6 sm:text-base">
             <a href="/test" class="text-gray-600 hover:text-gray-800">Explore</a>
             <a href="#" class="text-gray-600 hover:text-gray-800">Destinations</a>
             <a href="#" class="text-gray-600 hover:text-gray-800">Wishlist</a>
         </div>
-        <div>
-            <button class="px-2 py-2 bg-gray-200 rounded-full hover:bg-gray-300 transition">
+        <div class="shrink-0">
+            <button class="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition" aria-label="Open profile">
                 <a href="/profile">
-                    <img src="{{ url_for('static', path='pic/user.png') }}" class="w-5 h-5">
+                    <img src="{{ url_for('static', path='pic/user.png') }}" class="h-5 w-5">
                 </a>
             </button>
         </div>
     </nav>
-    <hr class="border-gray-300 mx-5"> 
+    <hr class="mx-4 border-gray-300 sm:mx-6 lg:mx-8">
 
 {% block content %}
 {% endblock %}

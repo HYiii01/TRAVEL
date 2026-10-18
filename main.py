@@ -108,7 +108,10 @@ async def login(
     
 
 @app.get("/profile", response_class=HTMLResponse)
-async def get_profile(request: Request, sb_access_token: str = Cookie(default=None)):
+async def get_profile(
+    request: Request,
+    sb_access_token: str = Cookie(default=None, alias="sb-access-token"),
+):
     if sb_access_token:
         try:
             
@@ -126,7 +129,7 @@ async def get_profile(request: Request, sb_access_token: str = Cookie(default=No
                         "is_guest": False
                     }
                 )
-        except Exception:
+        except Exception :
             pass
 
     return templates.TemplateResponse(
