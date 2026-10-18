@@ -1,11 +1,15 @@
 {% extends "index.html" %}
 
 {% block content %}
-<div class="h-full bg-gradient-to-br from-purple-50/60 via-pink-50/40 to-blue-50/50">
+<div class="h-full bg-gradient-to-br from-purple-50/60 via-pink-50/40 to-blue-50/50"
+     x-data="{ errorMessage: '' }"
+     @htmx:response-error.window="errorMessage = JSON.parse($event.detail.xhr.responseText).message">
+    
     <div class="min-h-[calc(100vh-5rem)] flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
         
-        <div class="relative mx-auto flex w-full max-w-md flex-col overflow-hidden rounded-3xl bg-white/80 backdrop-blur-xl px-6 py-10 sm:px-10 sm:py-12 shadow-[0_20px_50px_rgba(148,163,184,0.15)] ring-1 ring-white/60">
+        <div class="relative mx-auto flex w-full max-w-md flex-col overflow-hidden rounded-3xl bg-white/85 backdrop-blur-xl px-6 py-10 sm:px-10 sm:py-12 shadow-[0_20px_50px_rgba(148,163,184,0.15)] ring-1 ring-white/60">
             
+
             <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 <div class="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-[#ffccff] mix-blend-multiply blur-[80px] opacity-60"></div>
                 <div class="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-[#d8c4ff] mix-blend-multiply blur-[90px] opacity-50"></div>
@@ -26,7 +30,14 @@
                     <a href="/login" class="rounded-xl px-4 py-2.5 text-center text-slate-400 hover:text-slate-700 transition">Login</a>
                 </div>
 
-                <form action="/signup" method="POST" class="space-y-4">
+
+                <div x-show="errorMessage" 
+                     x-transition 
+                     class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs sm:text-sm rounded-2xl" 
+                     x-text="errorMessage"></div>
+
+
+                <form hx-post="/signup" hx-swap="none" class="space-y-4">
                     <div class="space-y-3.5">
                         <div>
                             <label for="name" class="mb-1.5 block text-xs font-medium text-slate-600">Username</label>

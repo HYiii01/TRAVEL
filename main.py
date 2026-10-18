@@ -1,6 +1,7 @@
 import os
 import json
-from fastapi import FastAPI, Depends, HTTPException, Request, status
+from fastapi import Cookie, FastAPI, Depends, Form, HTTPException, Request, Response, status
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -45,14 +46,94 @@ def test(request: Request):
         context={"attractions": attractions_list}
     )
 
-@app.get("/profile")
-def profile(request: Request):
-    return templates.TemplateResponse(request, "profile.html", {"request": request})
 
 @app.get("/signup")
 def signup(request: Request):
     return templates.TemplateResponse(request, "signup.html", {"request": request})
 
+@app.post("/signup")
+async def handle_signup(
+    request: Request,
+    name: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...)
+):
+    try:
+        response = supabase.auth.sign_up({
+            "email": email,
+            "password": password,
+            "options": {
+                "data": {"full_name": name}
+            }
+        })
+        
+        res = Response(status_code=200)
+        res.headers["HX-Redirect"] = "/login"
+        return res
+        
+    except Exception as e:
+        return JSONResponse(
+            status_code=400,
+            content={"message": f"Registration failed: {str(e)}"}
+        )
+
 @app.get("/login")
-def login(request: Request):
+def login_page(request: Request):
     return templates.TemplateResponse(request, "login.html", {"request": request})
+
+@app.post("/login")
+async def login(
+    name: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...)
+):
+    try:
+        response = supabase.auth.sign_in_with_password({
+            "email": email,
+            "password": password
+        })
+        
+        access_token = response.session.access_token
+        
+        res = Response(status_code=200)
+        res.set_cookie(key="sb-access-token", value=access_token, httponly=True)
+        res.headers["HX-Redirect"] = "/"
+        return res
+        
+    except Exception as e:
+        return JSONResponse(
+            status_code=400,
+            content={"message": "Login failed", "error": str(e)}
+        )
+    
+
+@app.get("/profile", response_class=HTMLResponse)
+async def get_profile(request: Request, sb_access_token: str = Cookie(default=None)):
+    if sb_access_token:
+        try:
+            
+            user_response = supabase.auth.get_user(sb_access_token)
+            if user_response and user_response.user:
+
+                user_metadata = user_response.user.user_metadata or {}
+                user_name = user_metadata.get("full_name", "User")
+                
+                return templates.TemplateResponse(
+                    request=request, 
+                    name="profile.html", 
+                    context={
+                        "user_name": user_name,
+                        "is_guest": False
+                    }
+                )
+        except Exception:
+            pass
+
+    return templates.TemplateResponse(
+        request=request, 
+        name="login.html", 
+        context={
+            "user_name": "guest",
+            "is_guest": True
+        }
+    )
