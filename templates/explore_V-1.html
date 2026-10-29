@@ -1,0 +1,172 @@
+{% extends "index.html" %}
+
+{% block content %}
+<div class="flex min-h-[calc(100vh-7.5rem)] w-full flex-grow flex-col items-center justify-start px-3 py-4 sm:px-6 lg:px-8">
+
+    <header class="relative mb-6 flex w-full max-w-6xl flex-col items-center gap-4 px-1 sm:px-4 lg:flex-row lg:justify-between">
+        <div class="hidden w-1/4 lg:block"></div>
+
+        <div class="w-full text-center lg:flex-grow">
+            <h1 class="text-xl font-bold text-slate-800 sm:text-2xl">✈️ Explore Your Next Destination</h1>
+            <p class="text-xs text-slate-500 sm:text-sm">click the button or swipe the card to make a choice</p>
+            <p class="text-xs text-slate-500 sm:text-sm">click the undo button to go back</p>
+        </div>
+
+        <div class="flex w-full justify-center lg:w-1/4 lg:justify-end">
+            <div class="relative w-full max-w-xs">
+                <input type="text" 
+                    placeholder="Search destinations..." 
+                    class="w-full rounded-full border border-slate-200 bg-slate-100 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 transition">
+                <span class="absolute right-3 top-2.5 text-slate-400 text-sm">🔍</span>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="relative mb-28 h-[clamp(26rem,68vh,30rem)] w-[min(20rem,calc(100vw-1.5rem))]"
+         x-data='swipeCards({{ attractions | tojson | safe }})'>
+        
+        <template x-if="cards.length > 0">
+            <div class="relative w-full h-full">
+                <template x-for="(item, index) in cards" :key="item.id || index">
+                    <div class="card absolute inset-0 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col select-none transition-all duration-300"
+                         :class="{
+                             'z-30 cursor-grab active:cursor-grabbing': index === 0,
+                             'z-20 scale-95 translate-y-3 opacity-90 pointer-events-none': index === 1,
+                             'z-10 scale-90 translate-y-6 opacity-60 pointer-events-none': index >= 2
+                         }"
+                         :style="index === 0 ? `transform: translate(${currentX}px, 0px) rotate(${currentX * 0.08}deg); transition: ${isDragging ? 'none' : 'transform 0.3s ease'};` : ''"
+                         @touchstart="index === 0 && startDrag($event)"
+                         @touchmove="index === 0 && onDrag($event)"
+                         @touchend="index === 0 && endDrag()"
+                         @mousedown="index === 0 && startDrag($event)"
+                         @mousemove="index === 0 && onDrag($event)"
+                         @mouseup="index === 0 && endDrag()"
+                         @mouseleave="index === 0 && endDrag()">
+                        
+                        
+                        <div class="h-[clamp(15rem,42vh,18rem)] w-full overflow-hidden bg-slate-200 pointer-events-none">
+                            <img :src="item.image_url" 
+                                 @error="$event.target.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80'"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        
+                        <div class="flex flex-grow flex-col justify-between bg-white p-4 pointer-events-none sm:p-5">
+                            <div>
+                                <h2 class="text-lg font-bold text-slate-800 sm:text-xl" x-text="item.name"></h2>
+                                <p class="text-xs text-slate-500 mt-1" x-text="'📍 ' + item.city"></p>
+                                <p class="text-sm text-slate-600 mt-2 line-clamp-2" x-text="item.description"></p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+
+        <template x-if="cards.length === 0">
+            <div class="absolute inset-0 bg-white rounded-2xl shadow-xl flex flex-col items-center justify-center p-6 text-center">
+                <span class="text-4xl mb-2">🎉</span>
+                <h2 class="text-lg font-bold text-slate-800">You've seen all the recommendations!</h2>
+                <p class="text-xs text-slate-500 mt-1">Go check your wishlist!</p>
+                <button @click="resetCards()" class="mt-4 px-4 py-2 bg-slate-800 text-white text-sm rounded-xl shadow hover:bg-slate-700 transition">
+                    Start Over
+                </button>
+            </div>
+        </template>
+
+        <div class="absolute -bottom-36 left-0 right-0 flex flex-col items-center gap-3">
+            <div class="flex items-center justify-center gap-3 sm:gap-4">
+                <button @click="swipe('left')" class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-2xl text-red-500 shadow-lg hover:scale-110 transition active:scale-95 sm:h-16 sm:w-16">
+                    <img src="{{ url_for('static', path='pic/dislike.png') }}" class="w-6 h-6">
+                </button>
+                <button @click="rewind()" 
+                        :disabled="swipedHistory.length === 0"
+                        class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white text-xl shadow-md hover:scale-110 transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 sm:h-12 sm:w-12">
+                    <img src="{{ url_for('static', path='pic/undo.png') }}" class="w-5 h-5">
+                </button>
+                <button @click="swipe('right')" class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-2xl text-green-500 shadow-lg hover:scale-110 transition active:scale-95 sm:h-16 sm:w-16">
+                    <img src="{{ url_for('static', path='pic/like.png') }}" class="w-6 h-6">
+                </button>
+            </div>
+            <p class="text-sm text-slate-600 font-medium">
+                Wishlist: <span x-text="wishlist.length" class="font-bold text-slate-800"></span> items
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('swipeCards', (initialCards) => ({
+            cards: initialCards || [],
+            originalCards: [...initialCards],
+            swipedHistory: [],
+            wishlist: [],
+            startX: 0,
+            currentX: 0,
+            isDragging: false,
+
+            startDrag(e) {
+                if (this.cards.length === 0) return;
+                this.isDragging = true;
+                this.startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            },
+
+            onDrag(e) {
+                if (!this.isDragging) return;
+                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                this.currentX = clientX - this.startX;
+            },
+
+            endDrag() {
+                if (!this.isDragging) return;
+                this.isDragging = false;
+
+                if (this.currentX > 100) {
+                    this.swipe('right');
+                } else if (this.currentX < -100) {
+                    this.swipe('left');
+                } else {
+                    this.currentX = 0;
+                }
+            },
+
+            swipe(direction) {
+                if (this.cards.length === 0) return;
+                this.currentX = direction === 'right' ? 400 : -400;
+
+                setTimeout(() => {
+                    const swipedCard = this.cards.shift();
+                    this.swipedHistory.push({ card: swipedCard, direction: direction });
+                    
+                    if (direction === 'right') {
+                        this.wishlist.push(swipedCard);
+                    }
+
+                    this.currentX = 0;
+                }, 300);
+            },
+
+            rewind() {
+                if (this.swipedHistory.length === 0) return;
+                const lastAction = this.swipedHistory.pop();
+                this.cards.unshift(lastAction.card);
+
+                if (lastAction.direction === 'right') {
+                    this.wishlist.pop();
+                }
+
+                this.currentX = 0;
+            },
+
+            resetCards() {
+                this.cards = [...this.originalCards];
+                this.swipedHistory = [];
+                this.wishlist = [];
+            }
+        }))
+    });
+</script>
+{% endblock %}
