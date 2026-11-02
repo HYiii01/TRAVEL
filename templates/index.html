@@ -6,27 +6,65 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.0.0"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <title>Document</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='pic/logo.png') }}">
+    <title>Travelll</title>
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
-<body class="min-h-screen overflow-x-hidden bg-gray-100">
-    <nav class="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-4 sm:px-6 lg:px-8">
-        <div class="min-w-0 flex-1 text-base font-semibold text-gray-800 sm:text-lg">
-            <a href="/" class="whitespace-nowrap">Travel Planner</a>
-        </div>
-        <div class="order-3 flex w-full justify-center gap-4 text-sm sm:order-none sm:w-auto sm:gap-6 sm:text-base">
-            <a href="/test" class="text-gray-600 hover:text-gray-800">Explore</a>
-            <a href="#" class="text-gray-600 hover:text-gray-800">Destinations</a>
-            <a href="#" class="text-gray-600 hover:text-gray-800">Wishlist</a>
-        </div>
-        <div class="shrink-0">
-            <button class="rounded-full bg-gray-200 p-2 hover:bg-gray-300 transition" aria-label="Open profile">
-                <a href="/profile">
-                    <img src="{{ url_for('static', path='pic/user.png') }}" class="h-5 w-5">
-                </a>
+<body class="min-h-screen overflow-x-hidden bg-[#F4F9F8]"
+      x-data="{ mobileDrawerOpen: false }">
+    <nav class="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 z-30">
+        <div class="flex items-center gap-3">
+            <!-- Mobile menu button -->
+            <button @click="mobileDrawerOpen = !mobileDrawerOpen"
+                    type="button"
+                    :aria-expanded="mobileDrawerOpen.toString()"
+                    aria-label="Toggle navigation menu"
+                    class="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu preview-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
             </button>
+
+            <a href="/" class="flex items-center gap-2 whitespace-nowrap">
+                <img src="{{ url_for('static', path='pic/logo.png') }}" class="h-9 w-9 flex-shrink-0">
+                <span class="text-lg font-bold text-gray-800">Travelll</span>
+            </a>
+        </div>
+
+        <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium">
+            <a href="/explore" class="text-gray-600 hover:text-gray-900 transition">Explore</a>
+            <a href="/collaboration" class="text-gray-600 hover:text-gray-900 transition">Collaboration</a>
+            <a href="#" class="text-gray-600 hover:text-gray-900 transition hidden sm:inline">Destinations</a>
+            <a href="/overview" class="text-gray-600 hover:text-gray-900 transition">Dashboard</a>
+        </div>
+
+        <div class="flex items-center">
+            <a href="/profile" class="inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 hover:bg-gray-200 transition">
+                {% if user_avatar_url %}
+                    <img data-user-avatar src="{{ user_avatar_url }}" alt="{{ user_name }}" class="h-6 w-6 rounded-full object-cover">
+                {% else %}
+                    <span data-user-avatar-initials class="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-[10px] font-bold text-white">{{ user_initials or 'U' }}</span>
+                {% endif %}
+            </a>
         </div>
     </nav>
-    <hr class="mx-4 border-gray-300 sm:mx-6 lg:mx-8">
+
+    <div x-show="mobileDrawerOpen"
+         x-cloak
+         @click="mobileDrawerOpen = false"
+         class="fixed inset-0 z-40 bg-black/30 lg:hidden"
+         aria-hidden="true"></div>
+
+    <div x-show="mobileDrawerOpen"
+         x-transition
+         x-cloak
+         class="fixed left-0 right-0 top-[65px] z-50 border-b border-gray-200 bg-white p-4 shadow-lg lg:hidden">
+        <nav class="flex flex-col gap-1 text-sm font-medium" aria-label="Mobile navigation">
+            <a href="/explore" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Explore</a>
+            <a href="/collaboration" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Collaboration</a>
+            <a href="/overview" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Dashboard</a>
+            <a href="/profile" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Profile</a>
+        </nav>
+    </div>
 
 {% block content %}
 {% endblock %}
