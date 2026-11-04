@@ -1,26 +1,8 @@
-import json
-import os
-from contextlib import asynccontextmanager
-from typing import Any
-
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
 from routers import auth, pages
 
-ATTRACTIONS_CACHE: list[Any] = []
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    global ATTRACTIONS_CACHE
-    json_path = os.path.join("static", "attractions.json")
-    if os.path.exists(json_path):
-        with open(json_path, "r", encoding="utf-8") as file:
-            ATTRACTIONS_CACHE = json.load(file)
-    yield
-
-app = FastAPI(lifespan=lifespan)
-
+app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
