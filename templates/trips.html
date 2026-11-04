@@ -1,0 +1,151 @@
+{% extends "dashboard.html" %}
+
+{% block content %}
+<div x-data="travelApp()" x-init="initApp()" class="space-y-4">
+    
+    <!-- Pathway (My Trips > Malaysia > Day 1) -->
+    <nav class="flex items-center text-sm font-semibold text-slate-500 bg-white dark:bg-slate-800 px-4 py-2.5 rounded-2xl shadow-sm border border-slate-200/80 dark:border-slate-700">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2">
+            <li>
+                <button @click="backToTrips()" class="hover:text-purple-600 flex items-center gap-1.5 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder w-4 h-4"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
+                    <span>My Trips</span>
+                </button>
+            </li>
+            <template x-if="currentTrip">
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-slate-400 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                    <button @click="selectDay('all')" class="hover:text-purple-600 text-slate-700 dark:text-slate-200" x-text="currentTrip.country || currentTrip.title"></button>
+                </li>
+            </template>
+            <template x-if="currentTrip && selectedDayNum !== 'all'">
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-slate-400 mx-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                    <span class="text-purple-600 font-bold" x-text="'Day ' + selectedDayNum"></span>
+                </li>
+            </template>
+        </ol>
+    </nav>
+
+    <!-- Trip Cards -->
+    <div x-show="!currentTrip" x-transition.opacity class="space-y-4">
+        <div>
+            <h2 class="text-xl font-black text-slate-800 dark:text-white">Select a Travel Plan</h2>
+            <p class="text-xs text-slate-500">Pick a destination to view day schedules and location pins.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <template x-for="trip in trips" :key="trip.id">
+                <div @click="selectTrip(trip)" class="group cursor-pointer bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
+                    <div class="h-44 w-full overflow-hidden relative">
+                        <img :src="trip.cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent"></div>
+                        <span class="absolute top-3 left-3 flex items-center gap-1 bg-white/95 dark:bg-slate-900/90 text-purple-700 dark:text-purple-300 text-xs font-bold px-2.5 py-1 rounded-full shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin w-3.5 h-3.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <span x-text="trip.country || 'Destination'"></span>
+                        </span>
+                        <h3 class="absolute bottom-3 left-3 text-white font-black text-lg" x-text="trip.title"></h3>
+                    </div>
+                    <div class="p-3.5 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <span x-text="(trip.days ? trip.days.length : 0) + ' Days Planned'"></span>
+                        <span class="text-purple-600 font-bold group-hover:translate-x-1 transition-transform">Open Workspace</span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Day Selection Tabs -->
+    <div x-show="currentTrip" x-transition.opacity class="space-y-4" style="display: none;">
+        
+        <!-- Day Selection Tabs (All Days / Day 1 / Day 2) -->
+        <div class="flex items-center justify-between gap-3 bg-white dark:bg-slate-800 p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700">
+            <div class="flex items-center gap-1.5 overflow-x-auto">
+                <button @click="selectDay('all')" 
+                    :class="selectedDayNum === 'all' ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'"
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition">
+                    All Days
+                </button>
+                <template x-for="day in currentTrip?.days || []" :key="day.day_num">
+                    <button @click="selectDay(day.day_num)" 
+                        :class="selectedDayNum === day.day_num ? 'bg-purple-600 text-white shadow-sm' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'"
+                        class="px-3 py-1.5 rounded-xl text-xs font-bold transition">
+                        <span x-text="'Day ' + day.day_num"></span>
+                        <span class="text-[10px] opacity-75 font-normal ml-0.5" x-text="'(' + day.date + ')'"></span>
+                    </button>
+                </template>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function travelApp() {
+        return {
+            trips: [],
+            currentTrip: null,
+            selectedDayNum: 'all',
+            
+            async initApp() {
+                try {
+                    const res = await fetch('/static/attractions.json');
+                    const rawData = await res.json();
+                    
+                    if (Array.isArray(rawData) && rawData.length > 0 && !rawData[0].days) {
+                        // make sure each stop has id to prevent list rendering confusion in Alpine due to key conflicts.
+                        const formattedStops = rawData.map((item, idx) => ({
+                            id: item.id || (idx + 1),
+                            name: item.name || item.title || 'Attraction',
+                            lat: parseFloat(item.lat || item.latitude),
+                            lng: parseFloat(item.lng || item.longitude),
+                            img: item.image_url || item.img || item.cover || '',
+                            desc: item.description || item.desc || ''
+                        }));
+
+                        this.trips = [{
+                            id: "malaysia-2025",
+                            title: "Malaysia Highlights",
+                            country: "Malaysia",
+                            cover: formattedStops[0]?.img,
+                            days: [
+                                {
+                                    day_num: 1,
+                                    date: "10/05",
+                                    stops: formattedStops.slice(0, 3)
+                                },
+                                {
+                                    day_num: 2,
+                                    date: "11/05",
+                                    stops: formattedStops.slice(3)
+                                }
+                            ]
+                        }];
+                    } else {
+                        this.trips = rawData;
+                    }
+                } catch (e) {
+                    console.error("Failed to load /static/attractions.json", e);
+                }
+            },
+
+            selectTrip(trip) {
+                this.currentTrip = trip;
+                if (window.TripStore) window.TripStore.select(trip);
+                this.selectedDayNum = 'all';
+            },
+
+            backToTrips() {
+                this.currentTrip = null;
+            },
+
+            selectDay(dayNum) {
+                this.selectedDayNum = dayNum;
+            }
+
+        }
+    }
+</script>
+
+{% endblock %}
