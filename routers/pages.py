@@ -61,3 +61,18 @@ async def profile_trips(
         name="trips.html",
         context=context,
     )
+
+@router.get("/profile", response_class=HTMLResponse)
+async def get_profile(
+    request: Request,
+    sb_access_token: str | None = Cookie(default=None, alias="sb-access-token"),
+):
+    context = get_authenticated_context(sb_access_token)
+    if context:
+        return templates.TemplateResponse(
+            request=request,
+            name="profile.html",
+            context=context,
+        )
+
+    return RedirectResponse(url="/login", status_code=303)
