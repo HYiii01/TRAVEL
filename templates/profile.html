@@ -1,8 +1,53 @@
-{% extends "index.html" %}
+{% extends "dashboard.html" %}
 
 {% block content %}
-<div class="flex min-h-[calc(100vh-7rem)] flex-col items-center justify-center px-4 py-10 text-center">
-    <h1 class="text-2xl font-bold sm:text-3xl">Welcome to Your Profile, {{ user_name }}</h1>
-    <p class="mt-2 text-sm text-gray-600 sm:text-base">This is your personal center.</p>
-</div>
+    <div class="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-12" x-data="{ currentTripTab: 'upcoming' }">
+        
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 p-6 md:p-8 text-white shadow-xl shadow-indigo-100">
+            <div class="pointer-events-none absolute -right-6 -bottom-10 opacity-10">
+                <i data-lucide="globe" class="w-96 h-96"></i>
+            </div>
+
+            <!-- Profile Header -->
+            <div class="relative group flex flex-wrap items-center gap-8 pb-16 md:pb-0">
+                
+                <!-- Profile Avatar -->
+                <div class="w-28 h-28 rounded-full ring-4 ring-white/40 shadow-xl overflow-hidden bg-white text-indigo-600 font-extrabold text-3xl flex items-center justify-center relative">
+                    <div id="avatarContainer" class="w-full h-full flex items-center justify-center">
+                    {% if user_avatar_url %}
+                        <img src="{{ user_avatar_url }}" alt="{{ user_name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <span>{{ user_initials }}</span>
+                    {% endif %}
+                    </div>
+                </div>
+
+                <!-- Profile Info -->
+                <div>
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-2.5 mb-1.5">
+                        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">{{ user_name }}</h1>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-3 text-xs text-white/90">
+                        <span class="flex">Joined {{ user_joined_date }}</span>
+                    </div>
+                </div>
+
+                <!-- Profile Actions -->
+                <div class="absolute bottom-4 right-4 flex items-center gap-3">
+                    <a href="#" class="px-4 py-2.5 rounded-xl bg-white text-indigo-700 font-bold text-xs tracking-wide shadow-sm hover:bg-slate-50 transition flex items-center gap-2">
+                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i> Profile Settings
+                    </a>
+                    <button type="button" @click="navigator.clipboard.writeText(window.location.href); alert('Profile link copied!')" class="px-4 py-2.5 rounded-xl bg-white/20 backdrop-blur-md text-white font-semibold text-xs hover:bg-white/30 transition flex items-center gap-2">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Share
+                    </button>
+                </div>
+            </div>
+
+    </div>
+
+
+
+    </div>
+
 {% endblock %}
