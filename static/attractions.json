@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "name": "Petronas Twin Towers (KLCC)",
+    "city": "Kuala Lumpur",
+    "description": "Majestic twin towers in the heart of Kuala Lumpur, featuring the iconic Skybridge and world-class shopping.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdSTgIHJ8jGv-86TWk5aBU5eG76hh0qQqnUA4UypzG0g&s=10",
+    "lat": 3.1579,
+    "lng": 101.7116
+  },
+  {
+    "id": 2,
+    "name": "Merdeka Square (Dataran Merdeka)",
+    "city": "Kuala Lumpur",
+    "description": "The historic heart of Malaysia's independence, surrounded by British colonial heritage architecture like the Sultan Abdul Samad Building.",
+    "image_url": "https://media.timeout.com/images/102829269/image.jpg",
+    "lat": 3.1492,
+    "lng": 101.6938
+  },
+  {
+    "id": 3,
+    "name": "Batu Caves",
+    "city": "Selangor",
+    "description": "A limestone hill featuring a series of caves and temples, famous for its giant golden statue of Lord Murugan and 272 rainbow steps.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdE42xMyge-sN339SNrNkEQdWSRBINCMMOaMnxghYWrw&s=10",
+    "lat": 3.2379,
+    "lng": 101.6840
+  },
+  {
+    "id": 4,
+    "name": "Putra Mosque",
+    "city": "Putrajaya",
+    "description": "A world-famous pink-domed mosque resting beside Putrajaya Lake, blending Middle Eastern and traditional Malay architecture.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5o0EDVwo7EJ1t4P6Wv0bWR8pCHTW7YWsatfsdVJPrXg&s=10",
+    "lat": 2.9360,
+    "lng": 101.6896
+  },
+  {
+    "id": 5,
+    "name": "George Town Street Art",
+    "city": "Penang",
+    "description": "Charming heritage shophouses adorned with vibrant murals and iron caricatures celebrating local Malaysian culture.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4vZS2NUrRO-XuLX853TrkNmeqENpHhPMhsOkn8IUXvg&s=10",
+    "lat": 5.4141,
+    "lng": 100.3392
+  },
+  {
+    "id": 6,
+    "name": "Penang Hill (Bukit Bendera)",
+    "city": "Penang",
+    "description": "A historic hill resort offering cool breezy air, funicular railway rides, and panoramic views of George Town.",
+    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEHRRavIQdoHf_43hIwyauneudpLXChrS4q1plVl3KMJoLxhDFTmkjjGjiuPZQELNAYHHHDbfHlNqMwt2UgFYEX7khFv-O0rncdrC_bfCCHRflU8M52COci1hflFUNiZq7uIbm/s1600/07+SGE_5746+Top+of+Penang+Hill+%2528Bukit+Bendera%2529+-+Fantastic+Scenery+of+the+City+%2526+Peninsular+Malaysia+via+its+Viewing+Decks.JPG",
+    "lat": 5.4085,
+    "lng": 100.2772
+  },
+  {
+    "id": 7,
+    "name": "Dataran Lang (Eagle Square)",
+    "city": "Langkawi",
+    "description": "Langkawi's most iconic landmark featuring a majestic 12-meter tall statue of a reddish-brown eagle poised to take flight.",
+    "image_url": "data:image/jpeg;base64,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",
+    "lat": 6.3088,
+    "lng": 99.8523
+  },
+  {
+    "id": 8,
+    "name": "Langkawi Sky Bridge",
+    "city": "Langkawi",
+    "description": "A spectacular curved pedestrian cable-stayed bridge suspended 660 meters above sea level with jaw-dropping rainforest views.",
+    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjfP_5wk165G4wdqcfWQhXBSWV7crKun2_pDa6V_qJwr1kQojZ0Sbt-CMxGyBpO7EECeAbD7MoCY4KrYl49H05a3OBc_9qwtiU12S_zAYO4i9FZ3wVGJqJFZ0437NkhWvjLeTZjfnwjx_M/s900/langkawi-sky-bridge-4.jpg",
+    "lat": 6.3712,
+    "lng": 99.6619
+  },
+  {
+    "id": 9,
+    "name": "Dutch Square & A Famosa",
+    "city": "Melaka",
+    "description": "UNESCO World Heritage area featuring prominent red terracotta buildings, Christ Church, and 16th-century Portuguese fortress ruins.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK-xq6daNtNjVqLiPNcNmBguPtmkQkL8A8Xn4L6eOHTQ&s=10",
+    "lat": 2.1942,
+    "lng": 102.2490
+  },
+  {
+    "id": 10,
+    "name": "BOH Sungei Palas Tea Garden",
+    "city": "Cameron Highlands",
+    "description": "Rolling emerald green tea hills, refreshing highland climate, and an observation cafe overlooking the vast plantation.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeT2vQHfEcQyLNEQTNPk4CsYw6OYVgNpRy1kFW3jlQOA&s=10",
+    "lat": 4.5167,
+    "lng": 101.4055
+  },
+  {
+    "id": 11,
+    "name": "Mount Kinabalu",
+    "city": "Sabah",
+    "description": "The highest peak in Malaysia and Borneo island, standing at 4,095 meters, renowned for its dramatic granite peaks and rich biodiversity.",
+    "image_url": "https://cdn.pixabay.com/photo/2017/06/15/10/02/mount-kinabalu-2404697_1280.jpg",
+    "lat": 6.0753,
+    "lng": 116.5583
+  },
+  {
+    "id": 12,
+    "name": "Gunung Mulu National Park",
+    "city": "Sarawak",
+    "description": "A UNESCO World Heritage site famous for dramatic limestone karst formations (the Pinnacles) and the world's most massive cave chambers.",
+    "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpRUqTjChZhrwjFlPxVhtrCWBb1kj9vrGNqw_ubTt1Pg&s=10",
+    "lat": 4.0489,
+    "lng": 114.8144
+  }
+]
