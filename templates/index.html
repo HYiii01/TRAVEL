@@ -6,43 +6,46 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.0.0"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
-    <link rel="icon" type="image/png" href="{{ url_for('static', path='pic/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='logo.png') }}">
     <title>Travelll</title>
     <style>[x-cloak] { display: none !important; }</style>
 </head>
 <body class="min-h-screen overflow-x-hidden bg-[#F4F9F8]"
       x-data="{ mobileDrawerOpen: false }">
-    <nav class="flex-shrink-0 flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 z-30">
-        <div class="flex items-center gap-3">
+    <nav class="flex-shrink-0 flex items-center justify-between gap-2 px-3 py-2.5 sm:px-4 sm:py-3 bg-white border-b border-gray-200 z-30">
+        <div class="flex min-w-0 items-center gap-2 sm:gap-3">
             <!-- Mobile menu button -->
             <button @click="mobileDrawerOpen = !mobileDrawerOpen"
                     type="button"
                     :aria-expanded="mobileDrawerOpen.toString()"
                     aria-label="Toggle navigation menu"
-                    class="lg:hidden p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu preview-icon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+                    class="lg:hidden shrink-0 rounded-lg p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
 
-            <a href="/" class="flex items-center gap-2 whitespace-nowrap">
-                <img src="{{ url_for('static', path='pic/logo.png') }}" class="h-9 w-9 flex-shrink-0">
-                <span class="text-lg font-bold text-gray-800">Travelll</span>
+            <a href="/" class="flex min-w-0 items-center gap-1.5 whitespace-nowrap sm:gap-2">
+                <img src="{{ url_for('static', path='logo.png') }}" class="h-8 w-8 shrink-0 sm:h-9 sm:w-9" alt="Travelll logo">
+                <span class="truncate text-base font-bold text-gray-800 sm:text-lg">Travelll</span>
             </a>
         </div>
 
-        <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium">
+        <div class="hidden items-center gap-4 text-sm font-medium lg:flex xl:gap-6">
             <a href="/explore" class="text-gray-600 hover:text-gray-900 transition">Explore</a>
             <a href="/collaboration" class="text-gray-600 hover:text-gray-900 transition">Collaboration</a>
             <a href="#" class="text-gray-600 hover:text-gray-900 transition hidden sm:inline">Destinations</a>
             <a href="/overview" class="text-gray-600 hover:text-gray-900 transition">Dashboard</a>
         </div>
 
-        <div class="flex items-center">
-            <a href="/profile" class="inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 hover:bg-gray-200 transition">
-                {% if user_avatar_url %}
-                    <img data-user-avatar src="{{ user_avatar_url }}" alt="{{ user_name }}" class="h-6 w-6 rounded-full object-cover">
+        <div class="flex shrink-0 items-center">
+            <a href="{{ '/login' if is_guest else '/profile' }}" class="inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 transition hover:bg-gray-200" aria-label="{{ 'Log in' if is_guest else 'Open profile' }}">
+                {% if is_guest %}
+                    <i data-lucide="user" class="h-5 w-5 text-gray-500 sm:h-6 sm:w-6"></i>
+                {% elif user_avatar_url %}
+                    <img data-user-avatar src="{{ user_avatar_url }}" alt="{{ user_name }}" class="h-5 w-5 rounded-full object-cover sm:h-6 sm:w-6">
                 {% else %}
-                    <span data-user-avatar-initials class="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-[10px] font-bold text-white">{{ user_initials or 'U' }}</span>
+                    <span data-user-avatar-initials class="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-500 text-[9px] font-bold text-white sm:h-6 sm:w-6 sm:text-[10px]">{{ user_initials or 'U' }}</span>
                 {% endif %}
             </a>
         </div>
@@ -57,12 +60,12 @@
     <div x-show="mobileDrawerOpen"
          x-transition
          x-cloak
-         class="fixed left-0 right-0 top-[65px] z-50 border-b border-gray-200 bg-white p-4 shadow-lg lg:hidden">
+         class="fixed left-0 right-0 top-[57px] z-50 border-b border-gray-200 bg-white p-3 shadow-lg sm:top-[65px] sm:p-4 lg:hidden">
         <nav class="flex flex-col gap-1 text-sm font-medium" aria-label="Mobile navigation">
-            <a href="/explore" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Explore</a>
-            <a href="/collaboration" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Collaboration</a>
-            <a href="/overview" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Dashboard</a>
-            <a href="/profile" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="/#" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Explore</a>
+            <a href="/#" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Collaboration</a>
+            <a href="/#" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Dashboard</a>
+            <a href="/#" @click="mobileDrawerOpen = false" class="rounded-lg px-3 py-3 text-gray-700 hover:bg-gray-100">Profile</a>
         </nav>
     </div>
 
