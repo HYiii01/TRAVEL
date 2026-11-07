@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from typing import Any
 from fastapi import HTTPException
 from supabase import Client, create_client
@@ -8,6 +9,24 @@ from core.config import SUPABASE_URL, SUPABASE_KEY
 from core.security import get_authenticated_user
 
 logger = logging.getLogger(__name__)
+
+
+def format_joined_date(created_at: str | datetime | None) -> str:
+    if not created_at:
+        return ""
+
+    try:
+        joined_at = (
+            created_at
+            if isinstance(created_at, datetime)
+            else datetime.fromisoformat(created_at.replace("Z", "+00:00"))
+        )
+    except ValueError:
+        logger.warning("Invalid user created_at value: %r", created_at)
+        return ""
+
+    return joined_at.strftime("%B %d, %Y")
+
 
 def get_user_client(access_token: str) -> Client:
     client = create_client(
@@ -48,6 +67,7 @@ def build_user_context(user, profile: dict[str, Any] | None = None):
         "language": profile.get("language") or "English",
         "avatar_url": profile.get("avatar_url") or metadata.get("avatar_url"),
         "preferences": profile.get("preferences") or [],
+        "joined_date": format_joined_date(getattr(user, "created_at", None)),
     }
 
 def get_authenticated_context(access_token: str | None):
@@ -67,6 +87,7 @@ def get_authenticated_context(access_token: str | None):
         "user_language": user_context["language"],
         "user_avatar_url": user_context["avatar_url"],
         "user_preferences": user_context["preferences"],
+        "user_joined_date": user_context["joined_date"],
         "is_guest": False,
     }
 
