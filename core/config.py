@@ -6,6 +6,7 @@ load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_PUBLISHABLE_KEY")
+MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise ValueError("Supabase URL or Key is not set in the environment variables.")
