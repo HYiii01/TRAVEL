@@ -187,6 +187,11 @@
                     } else {
                         this.trips = rawData;
                     }
+                    const requestedTripId = new URLSearchParams(window.location.search).get('trip');
+                    const requestedTrip = this.trips.find((trip) => trip.id === requestedTripId);
+                    if (requestedTrip) {
+                        this.selectTrip(requestedTrip);
+                    }
                 } catch (e) {
                     console.error("Failed to load /static/attractions.json", e);
                     this.mapMessage = 'Unable to load trip data';
