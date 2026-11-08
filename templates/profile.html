@@ -42,9 +42,91 @@
                         <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Share
                     </button>
                 </div>
-            </div>
+            </div>         
+        </div>
 
-    </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-2 flex flex-col gap-8">
+
+                <!-- My Trips Section -->
+                <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-100">
+                        <div>
+                            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="map" class="w-5 h-5 text-indigo-600"></i> My Trips
+                            </h2>
+                        </div>
+
+                        <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-semibold">
+                            <button
+                                type="button"
+                                class="px-3.5 py-1.5 rounded-lg transition"
+                                :class="currentTripTab === 'upcoming' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-200'"
+                                @click="currentTripTab = 'upcoming'">
+                                Upcoming
+                            </button>
+                            <button
+                                type="button"
+                                class="px-3.5 py-1.5 rounded-lg transition"
+                                :class="currentTripTab === 'ongoing' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-200'"
+                                @click="currentTripTab = 'ongoing'">
+                                Ongoing
+                            </button>
+                            <button
+                                type="button"
+                                class="px-3.5 py-1.5 rounded-lg transition"
+                                :class="currentTripTab === 'history' ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-200'"
+                                @click="currentTripTab = 'history'">
+                                History
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div x-show="currentTripTab === 'upcoming'" x-cloak class="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex flex-col items-center justify-center font-bold shadow-sm shrink-0">
+                                    <span class="text-sm">MAY</span>
+                                    <span class="text-xs">10</span>
+                                </div>
+                            
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-base">Malaysia Trip 2025</h4>
+                                    <p class="text-xs text-indigo-600 font-semibold mt-0.5 flex items-center gap-1.5">
+                                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> Departs in 14 days • 2 Days
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="/trips?trip=malaysia-2025" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition shadow-sm">
+                                View Trip
+                            </a>
+                        </div>
+
+                        <!-- Ongoing Trip -->
+                        <div x-show="currentTripTab === 'ongoing'" x-cloak class="py-8 text-center text-slate-400 text-sm">
+                            <i data-lucide="navigation" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+                            No active trip ongoing right now.
+                        </div>
+                        
+                        <!-- History -->
+                        <div x-show="currentTripTab === 'history'" x-cloak class="flex flex-col gap-2.5">
+                            <div class="p-3.5 rounded-2xl border border-slate-100 flex items-center justify-between hover:bg-slate-50 transition">
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Singapore Trip</h4>
+                                    <p class="text-xs text-slate-400">Completed in Jul 2024</p>
+                                </div>
+                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Finished</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
+
+            </div>
+        </div>
+
 
 
 
