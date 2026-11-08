@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from services.attraction_service import get_attractions
 from services.profile_service import get_authenticated_context
+from core.config import MAPBOX_ACCESS_TOKEN
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -55,6 +56,7 @@ async def profile_trips(
 
     context.update({
         "attractions": attractions_list,
+        "mapbox_token": MAPBOX_ACCESS_TOKEN,
     })
     return templates.TemplateResponse(
         request=request,
